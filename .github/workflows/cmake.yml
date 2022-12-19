@@ -25,9 +25,9 @@ jobs:
     - name: Install vcpkg
       run: |
         git clone https://github.com/Microsoft/vcpkg.git
-    - name: Install harfbuzz
+    - name: Install harfbuzz libepoxy
       run: |
-        vcpkg install harfbuzz        
+        vcpkg install harfbuzz libepoxy       
     - name: Install catch2 opencv
       run: |
         vcpkg install catch2 opencv
