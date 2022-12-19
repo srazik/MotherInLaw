@@ -30,7 +30,7 @@ jobs:
         vcpkg install harfbuzz libepoxy       
     - name: Install catch2 opencv
       run: |
-        vcpkg install catch2 opencv
+        vcpkg install catch2 opencv4:x64-windows
     - name: Check out code
       uses: actions/checkout@master
     - name: Create build directory
