@@ -21,7 +21,7 @@ jobs:
     steps:
     - name: Install additional libraries for opencv
       run: |
-        sudo apt-get install libdbus-1-dev libxi-dev libxtst-dev libx11-dev libgles2-mesa-dev xutils-dev libopencv-dev
+        sudo apt-get install libavcodec-dev libavcodec-extra libdbus-1-dev libxi-dev libxtst-dev libx11-dev libgles2-mesa-dev xutils-dev libopencv-dev
     - name: Install vcpkg
       run: |
         git clone https://github.com/Microsoft/vcpkg.git
@@ -30,7 +30,7 @@ jobs:
         vcpkg install harfbuzz libepoxy       
     - name: Install catch2 opencv
       run: |
-        vcpkg install catch2 opencv4:x64-windows
+        vcpkg install catch2 opencv
     - name: Check out code
       uses: actions/checkout@master
     - name: Create build directory
