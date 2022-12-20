@@ -21,13 +21,11 @@ jobs:
     steps:
     - name: Install additional libraries for opencv
       run: |
-        sudo apt-get install libgtk-3-dev libavcodec-dev libavcodec-extra libdbus-1-dev libxi-dev libxtst-dev libx11-dev libgles2-mesa-dev xutils-dev libopencv-dev
+        sudo apt-get install libgtk-3-dev libdbus-1-dev libxi-dev libxtst-dev libx11-dev libgles2-mesa-dev xutils-dev libopencv-dev
+        #libavcodec-dev libavcodec-extra 
     - name: Install vcpkg
       run: |
-        git clone https://github.com/Microsoft/vcpkg.git
-    - name: Install harfbuzz libepoxy
-      run: |
-        vcpkg install harfbuzz libepoxy       
+        git clone https://github.com/Microsoft/vcpkg.git    
     - name: Install catch2 opencv
       run: |
         vcpkg install catch2 opencv
@@ -38,5 +36,5 @@ jobs:
     - name: Compile
       working-directory: ${{ env.path }}
       run: |
-        cmake ..
+        cmake .
       
