@@ -40,4 +40,6 @@ jobs:
     - name: Run test
       working-directory: ${{ env.path }}
       run: |
-        ./cmake-build-debug/run_tests     
+    - name: Run test
+      working-directory: ${{ env.path }}
+      run: ctest -V    
