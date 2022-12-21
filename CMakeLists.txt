@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.22)
-set( CMAKE_TOOLCHAIN_FILE "/opt/vcpkg/scripts/buildsystems/vcpkg.cmake" )
+set( CMAKE_TOOLCHAIN_FILE "/usr/local/share/vcpkg/scripts/buildsystems/vcpkg.cmake" )
 
 project(MotherInLaw)
 

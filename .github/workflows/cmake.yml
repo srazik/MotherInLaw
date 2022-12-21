@@ -1,0 +1,40 @@
+name: MotherInLaw
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+      
+env:
+  BUILD_TYPE: Release
+  CLANG_TIDY_VERSION: 13
+  CMAKE_MAKE_PROGRAM: cmake
+      
+jobs:
+  MotherInLaw:
+    runs-on: ubuntu-latest
+    env:
+      path: build
+    steps:
+    - name: Install additional libraries for opencv
+      run: |
+        sudo apt-get install libgtk-3-dev libdbus-1-dev libxi-dev libxtst-dev libx11-dev libgles2-mesa-dev xutils-dev libopencv-dev
+        #libavcodec-dev libavcodec-extra 
+    - name: Install vcpkg
+      run: |
+        git clone https://github.com/Microsoft/vcpkg.git    
+    - name: Install catch2 opencv
+      run: |
+        vcpkg install catch2 opencv
+    - name: Check out code
+      uses: actions/checkout@master
+    - name: Create build directory
+      run: mkdir ${{ env.path }}
+    - name: Compile
+      working-directory: ${{ env.path }}
+      run: |
+        cmake ..
+      
