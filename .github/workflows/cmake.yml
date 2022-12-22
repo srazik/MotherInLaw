@@ -37,9 +37,7 @@ jobs:
       working-directory: ${{ env.path }}
       run: |
         cmake ..
+        make
     - name: Run test
       working-directory: ${{ env.path }}
-      run: |
-    - name: Run test
-      working-directory: ${{ env.path }}
-      run: ctest -V    
+      run: ./run_tests
