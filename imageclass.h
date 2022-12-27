@@ -11,7 +11,8 @@ public:
     std::string outFileName; //Filename that we save
     void show();//showing result of file
     void drawCircle(int radius, int size_line);//drawing a circles from the middle of it
-    void sizeImage();//at begining without parameters after we add size of targets
+    void sizeImage(int width, int height);//at begining without parameters after we add size of targets
+    void humanDetect();//For detection contours of human
     static std::string createOutFilename(const std::string& input_filename); //remember it was privat temporary
 };
 

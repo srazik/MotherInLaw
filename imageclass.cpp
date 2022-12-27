@@ -3,7 +3,8 @@
 #include <iostream>
 #include <opencv2/imgcodecs.hpp>
 #include <opencv2/highgui.hpp>
-#include <opencv2/imgproc/imgproc.hpp>
+#include <opencv2/imgproc.hpp>
+#include "opencv2/objdetect.hpp"
 
 ImageMap::ImageMap(const std::string& filename) {//init.
     pixels = imread(filename, cv::IMREAD_COLOR);
@@ -41,10 +42,29 @@ void ImageMap::drawCircle(int radius, int size_line) {
     cv::circle(pixels,cv::Point (center_x,center_y),radius,cv::Scalar (0, 255, 0), size_line);
 }
 
-void ImageMap::sizeImage(){
-    int up_width = mmToPx(550); //in mm
-    int up_height = mmToPx(550);//in mm
+void ImageMap::sizeImage(int width, int height){
+    int up_width = mmToPx(width); //in mm
+    int up_height = mmToPx(height);//in mm
     cv::Mat resized_up;
     //resize up
     cv::resize(pixels, pixels, cv::Size(up_width, up_height), cv::INTER_LINEAR);
+}
+
+void ImageMap::humanDetect() {
+
+    cv::CascadeClassifier faceClassifier;
+    faceClassifier.load("/home/razikszy/CLionProjects/MotherInLaw/haarcascade_frontalface_default.xml");
+
+
+    // Look face on picture
+    std::vector<cv::Rect> faces;
+    faceClassifier.detectMultiScale(pixels, faces);
+
+    cv::Mat imageFaces = pixels.clone();
+    for (cv::Rect face : faces) {
+        rectangle(imageFaces, face, cv::Scalar(255, 0, 0), 2);
+    }
+
+   cv::imshow("Pictures", imageFaces);
+   int k = cv::waitKey(0); // Wait for a keystroke in the window
 }

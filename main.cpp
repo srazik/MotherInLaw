@@ -9,11 +9,11 @@
 int main()
 {
    ImageMap my_image("/home/razikszy/CLionProjects/MotherInLaw/dupa.jpg");
-   my_image.sizeImage();//sizing image - actual value will be 550 mm
-   my_image.drawCircle(mmToPx(100), 3); //size of 100 mm
-   my_image.show();
+   my_image.sizeImage(150,150);//sizing image -
+   //my_image.drawCircle(mmToPx(100), 3); //size of 100 mm
+   //my_image.show();
    auto dupa = ImageMap::createOutFilename("dupa");
-
+    my_image.humanDetect();
 
   //  std::string image_path = samples::findFile("/home/razikszy/CLionProjects/MotherInLaw/starry_night.jpg");
   //  Mat img = imread(image_path, IMREAD_COLOR);
