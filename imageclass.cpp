@@ -55,10 +55,12 @@ void ImageMap::humanDetect() {
     cv::CascadeClassifier faceClassifier;
     faceClassifier.load("/home/razikszy/CLionProjects/MotherInLaw/haarcascade_frontalface_default.xml");
 
+    cv::Mat gray;
+    cv::cvtColor(pixels, gray, cv::COLOR_BGR2GRAY);
 
     // Look face on picture
     std::vector<cv::Rect> faces;
-    faceClassifier.detectMultiScale(pixels, faces);
+    faceClassifier.detectMultiScale(gray, faces);
 
     cv::Mat imageFaces = pixels.clone();
     for (cv::Rect face : faces) {
@@ -67,4 +69,24 @@ void ImageMap::humanDetect() {
 
    cv::imshow("Pictures", imageFaces);
    int k = cv::waitKey(0); // Wait for a keystroke in the window
+}
+
+cv::Mat ImageMap::faceDetection(const std::string & filename) {
+
+    cv::CascadeClassifier faceClassifier;
+    faceClassifier.load(filename);
+
+    cv::Mat gray;
+    cv::cvtColor(pixels, gray, cv::COLOR_BGR2GRAY);
+
+    // Look face on picture
+    std::vector<cv::Rect> faces;
+    faceClassifier.detectMultiScale(gray, faces);
+
+    cv::Mat imageFaces = pixels.clone();
+    for (cv::Rect face : faces) {
+        rectangle(imageFaces, face, cv::Scalar(255, 0, 0), -1);
+    }
+
+   return imageFaces;
 }

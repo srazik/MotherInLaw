@@ -13,8 +13,9 @@ int main()
    //my_image.drawCircle(mmToPx(100), 3); //size of 100 mm
    //my_image.show();
    auto dupa = ImageMap::createOutFilename("dupa");
-    my_image.humanDetect();
-
+   //my_image.humanDetect();
+   my_image.pixels = my_image.faceDetection("/home/razikszy/CLionProjects/MotherInLaw/haarcascade_frontalface_default.xml");
+   my_image.show();
   //  std::string image_path = samples::findFile("/home/razikszy/CLionProjects/MotherInLaw/starry_night.jpg");
   //  Mat img = imread(image_path, IMREAD_COLOR);
   //  if(img.empty())
