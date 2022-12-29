@@ -1,92 +1,101 @@
 #include "imageclass.h"
-#include "mathcalculate.h"
 #include <iostream>
-#include <opencv2/imgcodecs.hpp>
 #include <opencv2/highgui.hpp>
+#include <opencv2/imgcodecs.hpp>
 #include <opencv2/imgproc.hpp>
+#include "mathcalculate.h"
 #include "opencv2/objdetect.hpp"
 
-ImageMap::ImageMap(const std::string& filename) {//init.
-    pixels = imread(filename, cv::IMREAD_COLOR);
-    outFileName = createOutFilename(filename);
+ImageMap::ImageMap(const std::string& filename) {  // init.
+    if (FILE *file = fopen(filename.c_str(), "r")) { //do only when file is exist and we can open
+        pixels = imread(filename, cv::IMREAD_COLOR);
+        outFileName = createOutFilename(filename);
+    }
 }
-    std::string ImageMap::createOutFilename(const std::string& input_filename) {
-        auto foo = input_filename.find_last_of('.');
+std::string ImageMap::createOutFilename(const std::string& input_filename) {
+    auto foo = input_filename.find_last_of('.');
 
-        std::string output_filename = "";
-        if(foo != std::string::npos) { //for safety when there is no dot
-                    output_filename = input_filename.substr(0, foo) +
-                            "_new" + input_filename.substr(foo, input_filename.length());//Adding new before dot
-            }
-        else {
-            output_filename = input_filename+"_new";
-        }
-        return output_filename;
+    std::string output_filename = "";
+    if (foo != std::string::npos) {  // for safety when there is no dot
+        output_filename = input_filename.substr(0, foo) +
+                          "_new" + input_filename.substr(foo, input_filename.length());  // Adding new before dot
+    } else {
+        output_filename = input_filename + "_new";
+    }
+    return output_filename;
 }
 
 void ImageMap::show() {
-    if(pixels.empty()){
-        std::cout<<"File not exist\n";
-    }
-    else{
+    if (pixels.empty()) {  // checking if file is empty
+        std::cout << "File not exist\n";
+    } else {
         cv::imshow("Your's target", pixels);
-        int k = cv::waitKey(0); // Wait for a keystroke in the window
+        int k = cv::waitKey(0);  // Wait for a keystroke in the window
+    }
+}
 
+void ImageMap::saveImage() {
+    if (pixels.empty()) {
+        std::cout << "File not exist\n";   // checking gi file is empty
+    } else {                               // for not empty
+        cv::imwrite(outFileName, pixels);  // writing image
+        std::cout << "File created!\n";
     }
 }
 
 void ImageMap::drawCircle(int radius, int size_line) {
-    int center_x = pixels.rows/2;
-    int center_y = pixels.cols/2;
+    int center_x = pixels.rows / 2;
+    int center_y = pixels.cols / 2;
 
-    cv::circle(pixels,cv::Point (center_x,center_y),radius,cv::Scalar (0, 255, 0), size_line);
+    cv::circle(pixels, cv::Point(center_x, center_y), radius, cv::Scalar(0, 255, 0), size_line);
 }
 
-void ImageMap::sizeImage(int width, int height){
-    int up_width = mmToPx(width); //in mm
-    int up_height = mmToPx(height);//in mm
-    cv::Mat resized_up;
-    //resize up
+void ImageMap::sizeImage(int width, int height) {
+    int up_width = mmToPx(width);    // in mm
+    int up_height = mmToPx(height);  // in mm
+    // resize up
     cv::resize(pixels, pixels, cv::Size(up_width, up_height), cv::INTER_LINEAR);
 }
 
 void ImageMap::humanDetect() {
-
-    cv::CascadeClassifier faceClassifier;
-    faceClassifier.load("/home/razikszy/CLionProjects/MotherInLaw/haarcascade_frontalface_default.xml");
-
-    cv::Mat gray;
-    cv::cvtColor(pixels, gray, cv::COLOR_BGR2GRAY);
-
     // Look face on picture
-    std::vector<cv::Rect> faces;
-    faceClassifier.detectMultiScale(gray, faces);
-
-    cv::Mat imageFaces = pixels.clone();
-    for (cv::Rect face : faces) {
-        rectangle(imageFaces, face, cv::Scalar(255, 0, 0), 2);
-    }
-
-   cv::imshow("Pictures", imageFaces);
-   int k = cv::waitKey(0); // Wait for a keystroke in the window
 }
 
-cv::Mat ImageMap::faceDetection(const std::string & filename) {
-
-    cv::CascadeClassifier faceClassifier;
-    faceClassifier.load(filename);
+cv::Mat ImageMap::faceDetection(const std::string& filename) {
+    cv::CascadeClassifier faceClassifier;  // adding clasifiler
+    faceClassifier.load(filename);         // remember a good path for xml file - without it won't work
 
     cv::Mat gray;
-    cv::cvtColor(pixels, gray, cv::COLOR_BGR2GRAY);
+    cv::cvtColor(pixels, gray, cv::COLOR_BGR2GRAY);  // creation of grey picture
 
-    // Look face on picture
+    // Look face on gray picture
     std::vector<cv::Rect> faces;
     faceClassifier.detectMultiScale(gray, faces);
 
-    cv::Mat imageFaces = pixels.clone();
+    cv::Mat imageFaces = pixels.clone();  // Adding rectangle for face
     for (cv::Rect face : faces) {
-        rectangle(imageFaces, face, cv::Scalar(255, 0, 0), -1);
+        rectangle(imageFaces, face, cv::Scalar(255, 0, 0), -1);  //-1 means that it
+        // will be filled
     }
 
-   return imageFaces;
+    return imageFaces;
+}
+
+cv::Mat ImageMap::findContures() {
+    cv::Mat gray;
+    cv::cvtColor(pixels, gray, cv::COLOR_BGR2GRAY);  // creation of grey picture
+
+    // making threshold for pictures
+    cv::Mat thresh;
+    cv::threshold(gray, thresh, 150, 255, cv::THRESH_BINARY);
+    // detect the contours on the binary image using cv2.CHAIN_APPROX_NONE
+    std::vector<std::vector<cv::Point>> contours;
+    std::vector<cv::Vec4i> hierarchy;
+    findContours(thresh, contours, hierarchy, cv::RETR_TREE, cv::CHAIN_APPROX_NONE);
+
+    // draw contures on image
+    cv::Mat pixelsCopy = pixels.clone();
+    cv::drawContours(pixelsCopy, contours, -1, cv::Scalar(0, 255, 0), 2);
+
+    return pixelsCopy;
 }

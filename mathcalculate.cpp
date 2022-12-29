@@ -1,16 +1,15 @@
 #include "mathcalculate.h"
 #include <math.h>
 
-int convertValue(const int size, const double converter){
-    if (size > 0){
+int convertValue(const int size, const double converter) {
+    if (size > 0) {
         return int(round(size * converter));
-    }
-    else {
+    } else {
         return 0;
     }
 }
 
-int pxToMm(const int size_px){
+int pxToMm(const int size_px) {
     double converter = 0.264583;
     return convertValue(size_px, converter);
 }
