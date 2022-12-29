@@ -15,7 +15,7 @@ public:
     void humanDetect();                                  // For detection contours of human
     cv::Mat faceDetection(const std::string& filename);  // Return MAt with detected face on orginal picture
     cv::Mat findContures();
-private:
+//private:
     static std::string createOutFilename(const std::string& input_filename);  // remember it was privat temporary
 };
 
