@@ -7,22 +7,22 @@
 #include "opencv2/objdetect.hpp"
 
 ImageMap::ImageMap(const std::string& filename) {  // init.
-    if (FILE *file = fopen(filename.c_str(), "r")) { //do only when file is exist and we can open
+    if (fopen(filename.c_str(), "r")) {            // do only when file is exist and we can open
         pixels = imread(filename, cv::IMREAD_COLOR);
         outFileName = createOutFilename(filename);
     }
 }
-std::string ImageMap::createOutFilename(const std::string& input_filename) {
-    auto foo = input_filename.find_last_of('.');
+std::string ImageMap::createOutFilename(const std::string& inputFilename) {
+    auto foo = inputFilename.find_last_of('.');
 
-    std::string output_filename = "";
-    if (foo != std::string::npos) {  // for safety when there is no dot
-        output_filename = input_filename.substr(0, foo) +
-                          "_new" + input_filename.substr(foo, input_filename.length());  // Adding new before dot
+    std::string outputFilename = "";  // Initialisation only
+    if (foo != std::string::npos) {   // for safety when there is no dot
+        outputFilename = inputFilename.substr(0, foo) +
+                         "_new" + inputFilename.substr(foo, inputFilename.length());  // Adding new before dot
     } else {
-        output_filename = input_filename + "_new";
+        outputFilename = inputFilename + "_new";
     }
-    return output_filename;
+    return outputFilename;
 }
 
 void ImageMap::show() {
@@ -30,7 +30,7 @@ void ImageMap::show() {
         std::cout << "File not exist\n";
     } else {
         cv::imshow("Your's target", pixels);
-        int k = cv::waitKey(0);  // Wait for a keystroke in the window
+        cv::waitKey(0);  // Wait for a keystroke in the window
     }
 }
 
@@ -43,11 +43,11 @@ void ImageMap::saveImage() {
     }
 }
 
-void ImageMap::drawCircle(int radius, int size_line) {
+void ImageMap::drawCircle(int radius, int sizeLine) {
     int center_x = pixels.rows / 2;
     int center_y = pixels.cols / 2;
 
-    cv::circle(pixels, cv::Point(center_x, center_y), radius, cv::Scalar(0, 255, 0), size_line);
+    cv::circle(pixels, cv::Point(center_x, center_y), radius, cv::Scalar(0, 255, 0), sizeLine);
 }
 
 void ImageMap::sizeImage(int width, int height) {

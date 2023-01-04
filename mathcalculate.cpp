@@ -1,5 +1,5 @@
 #include "mathcalculate.h"
-#include <math.h>
+#include <cmath>
 
 int convertValue(const int size, const double converter) {
     if (size > 0) {
