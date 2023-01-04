@@ -16,7 +16,7 @@ public:
     cv::Mat faceDetection(const std::string& filename);  // Return MAt with detected face on orginal picture
     cv::Mat findContures();
 
-private:
+//private:
     static std::string createOutFilename(const std::string& inputFilename);  // remember it was privat temporary
 };
 
