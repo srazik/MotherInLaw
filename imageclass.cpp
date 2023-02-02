@@ -18,9 +18,9 @@ std::string ImageMap::createOutFilename(const std::string& inputFilename) {
     std::string outputFilename = "";  // Initialisation only
     if (foo != std::string::npos) {   // for safety when there is no dot
         outputFilename = inputFilename.substr(0, foo) +
-                         "_new" + inputFilename.substr(foo, inputFilename.length());  // Adding new before dot
+                         "_target" + inputFilename.substr(foo, inputFilename.length());  // Adding new before dot
     } else {
-        outputFilename = inputFilename + "_new";
+        outputFilename = inputFilename + "_target";
     }
     return outputFilename;
 }
@@ -44,7 +44,7 @@ void ImageMap::saveImage() {
 }
 
 void ImageMap::drawCircle(int radius, int sizeLine) {
-    int center_x = pixels.rows / 2;
+    int center_x = pixels.rows / 2; //On half of raws & cols
     int center_y = pixels.cols / 2;
 
     cv::circle(pixels, cv::Point(center_x, center_y), radius, cv::Scalar(0, 255, 0), sizeLine);

@@ -4,17 +4,17 @@
 
 TEST_CASE("ImageMap_ok") {
     auto newName = ImageMap::createOutFilename("example_name.jpg");
-    REQUIRE(newName == "example_name_new.jpg");
+    REQUIRE(newName == "example_name_target.jpg");
 }
 
 TEST_CASE("ImageMap_dot_in_filename") {
     auto newName = ImageMap::createOutFilename("Jebac.PiS.example_name.jpg");
-    REQUIRE(newName == "Jebac.PiS.example_name_new.jpg");
+    REQUIRE(newName == "Jebac.PiS.example_name_target.jpg");
 }
 
 TEST_CASE("ImageMap_no_dots") {
     auto newName = ImageMap::createOutFilename("JebacPiSexample_namejpg");
-    REQUIRE(newName == "JebacPiSexample_namejpg_new");
+    REQUIRE(newName == "JebacPiSexample_namejpg_target");
 }
 
 TEST_CASE("Checking_px_to_mm_OK") {
