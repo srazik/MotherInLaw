@@ -44,10 +44,10 @@ void ImageMap::saveImage() {
 }
 
 void ImageMap::drawCircle(int radius, int sizeLine) {
-    int center_x = pixels.rows / 2; //On half of raws & cols
+    int center_x = pixels.rows / 2;  // On half of raws & cols
     int center_y = pixels.cols / 2;
 
-    cv::circle(pixels, cv::Point(center_x, center_y), radius, cv::Scalar(0, 255, 0), sizeLine);
+    cv::circle(pixels, cv::Point(center_x, center_y), radius, cv::Scalar(0, 0, 255), sizeLine);
 }
 
 void ImageMap::sizeImage(int width, int height) {
@@ -62,6 +62,10 @@ void ImageMap::humanDetect() {
 }
 
 cv::Mat ImageMap::faceDetection(const std::string& filename) {
+    int x;  // Knowlage of point x on picture
+    int y;  // Knowlage of point y on picture
+    int sizeWidth = 0;
+    int sizeHeight = 0;
     cv::CascadeClassifier faceClassifier;  // adding clasifiler
     faceClassifier.load(filename);         // remember a good path for xml file - without it won't work
 
@@ -72,12 +76,24 @@ cv::Mat ImageMap::faceDetection(const std::string& filename) {
     std::vector<cv::Rect> faces;
     faceClassifier.detectMultiScale(gray, faces);
 
-    cv::Mat imageFaces = pixels.clone();  // Adding rectangle for face
+    cv::Mat imageFaces = pixels.clone();  // setting image as grey
     for (cv::Rect face : faces) {
-        rectangle(imageFaces, face, cv::Scalar(255, 0, 0), -1);  //-1 means that it
-        // will be filled
+        if (face.width >= cv::max(face.width, sizeWidth)) {
+            x = std::max(face.x - face.width / 8, 0);   // To avoid value <0
+            y = std::max(face.y - face.height / 8, 0);  // To avoid value < 0
+            sizeWidth = face.width;
+            sizeHeight = face.height;
+
+             //cv::Rect roi(x, y, std::min(face.width + face.width / 8, face.height + face.height / 8), std::min(face.width + face.width / 8, face.height + face.height / 8));
+             //imageFaces = imageFaces(roi);  // Cutting image
+            //  circle(imageFaces, cv::Point(x, y), 100, cv::Scalar(0, 0, 255), 10, cv::LINE_AA);
+            //  rectangle(imageFaces, face, cv::Scalar(255, 0, 0), -1);  //-1 means that it
+            //   will be filled
+        }
     }
 
+    cv::Rect roi(x, y, sizeWidth + sizeWidth/8, sizeHeight+sizeWidth/8);
+    imageFaces = imageFaces(roi);
     return imageFaces;
 }
 
