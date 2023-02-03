@@ -84,15 +84,15 @@ cv::Mat ImageMap::faceDetection(const std::string& filename) {
             sizeWidth = face.width;
             sizeHeight = face.height;
 
-             //cv::Rect roi(x, y, std::min(face.width + face.width / 8, face.height + face.height / 8), std::min(face.width + face.width / 8, face.height + face.height / 8));
-             //imageFaces = imageFaces(roi);  // Cutting image
+            // cv::Rect roi(x, y, std::min(face.width + face.width / 8, face.height + face.height / 8), std::min(face.width + face.width / 8, face.height + face.height / 8));
+            // imageFaces = imageFaces(roi);  // Cutting image
             //  circle(imageFaces, cv::Point(x, y), 100, cv::Scalar(0, 0, 255), 10, cv::LINE_AA);
             //  rectangle(imageFaces, face, cv::Scalar(255, 0, 0), -1);  //-1 means that it
             //   will be filled
         }
     }
 
-    cv::Rect roi(x, y, sizeWidth + sizeWidth/8, sizeHeight+sizeWidth/8);
+    cv::Rect roi(x, y, sizeWidth + sizeWidth / 8, sizeHeight + sizeWidth / 8);
     imageFaces = imageFaces(roi);
     return imageFaces;
 }
