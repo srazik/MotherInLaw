@@ -91,9 +91,14 @@ cv::Mat ImageMap::faceDetection(const std::string& filename) {
             //   will be filled
         }
     }
+    if (sizeWidth > 0) {
+        cv::Rect roi(x, y, sizeWidth + sizeWidth / 8, sizeHeight + sizeWidth / 8);
+        imageFaces = imageFaces(roi);
+    } /*else {
+        cv::Mat blueImage(800, 800, CV_8UC1, cv::Scalar(0, 0, 0));
+        imageFaces = blueImage.clone();
 
-    cv::Rect roi(x, y, sizeWidth + sizeWidth / 8, sizeHeight + sizeWidth / 8);
-    imageFaces = imageFaces(roi);
+    }*/
     return imageFaces;
 }
 

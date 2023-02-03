@@ -13,8 +13,9 @@ int main() {
         my_image.pixels = my_image.faceDetection("/home/razikszy/CLionProjects/MotherInLaw/haarcascade_frontalface_default.xml");
         my_image.sizeImage(600, 600);
         for (int i = 0; i < 10; i++) {
-            my_image.drawCircle(mmToPx(50 + 25 * i), mmToPx(2));
+            my_image.drawCircle(mmToPx(50 + 25 * i), mmToPx(1));
         }
+
         my_image.show();
         my_image.saveImage();
     }
