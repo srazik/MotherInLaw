@@ -10,7 +10,7 @@ project(MotherInLaw)
 find_package(OpenCV CONFIG REQUIRED)
 include_directories( ${OpenCV_INCLUDE_DIRS} )
 
-add_executable(MotherInLaw main.cpp import.cpp export.cpp imageclass.cpp imageclass.h mathcalculate.cpp mathcalculate.h)
+add_executable(MotherInLaw main.cpp imageclass.cpp imageclass.h mathcalculate.cpp mathcalculate.h)
 target_link_libraries(MotherInLaw ${OpenCV_LIBS})
 
 find_package(Catch2 CONFIG REQUIRED)
