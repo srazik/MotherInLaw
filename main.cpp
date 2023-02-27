@@ -14,9 +14,16 @@ int main() {
         my_image.sizeImage(600, 600);
         for (int i = 0; i < 10; i++) {
             my_image.drawCircle(mmToPx(50 + 25 * i), mmToPx(1));
+            if (i!=0) {
+                        my_image.writeNumber(std::to_string(10 - i), mmToPx(337) + mmToPx(25 * i), mmToPx(300));
+                my_image.writeNumber(std::to_string(10 - i), mmToPx(300), mmToPx(263) - mmToPx(25 * i));
+                my_image.writeNumber(std::to_string(10 - i), mmToPx(263) - mmToPx(25 * i), mmToPx(300));
+                my_image.writeNumber(std::to_string(10 - i), mmToPx(300),mmToPx(337) + mmToPx(25 * i));
+            }
         }
+        my_image.writeNumber("X", mmToPx(300), mmToPx(300));
 
-        my_image.show();
+//        my_image.show();
         my_image.saveImage();
     }
 

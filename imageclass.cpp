@@ -120,3 +120,20 @@ cv::Mat ImageMap::findContures() {
 
     return pixelsCopy;
 }
+
+cv::Mat ImageMap::writeNumber(const std::string & Number, int pozX, int pozY){
+
+    cv::Mat dupa;
+    //Font and parameter to them (to be checked
+    int font = cv::FONT_HERSHEY_SIMPLEX;
+    double fontScale = 4;
+    int thickness = 5;
+    int baseline = 0;
+    //checking size of text to be sure that will be on position that we want
+    cv::Size textSize = cv::getTextSize(Number, font, fontScale, thickness, &baseline);
+    // Position the text in the center of the image
+    cv::Point textOrg((2*pozX - textSize.width)/2, (2*pozY+textSize.height)/2);
+    cv::putText(pixels,Number,textOrg,font,fontScale, cv::Scalar(255,255,255),thickness);
+
+    return dupa;
+}
